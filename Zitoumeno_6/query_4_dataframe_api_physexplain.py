@@ -40,7 +40,7 @@ crime_df = crime_df1.union(crime_df2)
 
 # Filter crimes
 filtered_crimes = crime_df.join(
-    broadcast(weapon_codes_filtered),
+    weapon_codes_filtered,
     crime_df["Mocodes"] == weapon_codes_filtered["WeaponCode"],
     how="inner"
 ).filter(
@@ -56,7 +56,7 @@ stations = stations_df.select(
     col("X").alias("station_lon")
 )
 
-joined = filtered_crimes.crossJoin(broadcast(stations))
+joined = filtered_crimes.crossJoin(stations)
 
 # Calculate euclidean distance
 joined = joined.withColumn(
